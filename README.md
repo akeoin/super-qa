@@ -30,6 +30,10 @@
   - Execute tests either from a test plan or ad hoc by selecting features and test cases.
   - Track results, progress, and issues discovered during execution.
 
+- Support integrations with common testing frameworks such as **JUnit**, **JMeter**, **Selenium**, and others.
+  - Provide endpoints or service hooks to receive and map test result data.
+  - Store metadata including test ID, status, execution time, source system, and output logs.
+
 ---
 
 ### 🧪 Architectural/Technical Requirements (using Cursor AI for ASP.NET Boilerplate)
@@ -78,13 +82,18 @@ Implement a modular structure using ABP's built-in module system.
 
 ---
 
+
 #### 🤖 AI-Assisted Development with Cursor
 
 - Use **Cursor AI** to assist in code generation for:
-  - Entities and DTOs
+  - Entities and DTOs (ensure all DTOs follow naming and mapping conventions)
   - Application and Domain Services
   - Swagger annotations
   - Unit tests (xUnit + Moq)
+- Leverage `AsyncCrudAppService` in application services to auto-generate APIs for entities and support dynamic routing.
+- Ensure all generated services and DTOs:
+  - Support **pagination**, **filtering**, and **sorting** out-of-the-box using `PagedResultDto`, `PagedAndSortedResultRequestDto`, and query expressions.
+  - Are documented and versioned appropriately.
 - Mark AI-generated blocks with:
   ```csharp
   // Generated with Cursor AI
@@ -102,6 +111,11 @@ Implement a modular structure using ABP's built-in module system.
 - Use **UoW & Repositories** via ABP:
   - Custom business logic should leverage `IRepository<T>` and `IUnitOfWorkManager`
 - Maintain service abstraction to enable testability and inversion of control.
+- Support **dynamic entity properties**:
+  - Allow tenants to define additional fields for entities (e.g., custom attributes for test cases or features).
+  - Store dynamic fields in a structured format (e.g., JSON columns or related tables).
+  - Provide APIs to manage dynamic field definitions and values per tenant.
+  - Ensure these dynamic properties are accessible and filterable via both API and frontend forms.
 
 ---
 
@@ -126,11 +140,16 @@ Implement a modular structure using ABP's built-in module system.
 
 ---
 
-#### ⏱️ Background Jobs (Optional but Recommended)
+#### ⏱️ Background Jobs with Hangfire
 
-- Use `IBackgroundJobManager` for:
+- Integrate **Hangfire** as the background job scheduler for task management.
+- Configure Hangfire dashboard for administrative monitoring.
+- Use recurring jobs and delayed jobs to handle:
   - Auto-closing stale test runs
   - Sending notifications/reminders
+  - Report generation or scheduled data cleanup
+- Ensure tenant context is preserved across job execution in a multi-tenant environment using scoped or custom job filters.
+- Use dependency injection within jobs to access scoped services and repositories.
 
 ---
 
@@ -171,24 +190,13 @@ Implement a modular structure using ABP's built-in module system.
 
 - .NET 8 or later
 - ASP.NET Boilerplate (ABP Classic, not ABP.IO)
+- Entity Framework Core with **MySQL** provider
 - Entity Framework Core
 - Angular 16+ for frontend
 - Cursor AI in VS Code or Cursor IDE
 - xUnit, Moq for testing
+- Docker / Docker Compose for local development
 
 ---
 
 This architecture ensures scalable, testable, and maintainable development while leveraging the productivity of AI-assisted tooling.
-
-
-Feature hierarchy logic
-
-Test case validation
-
-Test plan/run workflows
-
-Permission enforcement
-
-
-
-
