@@ -3,36 +3,62 @@
 **Super-QA** is an advanced software testing management system built using **ASP.NET Boilerplate (ABP Classic)**. It helps QA teams organize, plan, and execute their testing strategies with clarity, traceability, and efficiency.
 
 ---
+### 🔑 Key Features
 
-## 🔍 Key Features
+#### ✅ Hierarchical Feature Management
+- Define and manage a nested tree of product features.
+- Support parent-child relationships between features.
+- Features are edition-aware and configurable per tenant.
 
-- ✅ **Hierarchical Feature Management**
-  - Define and manage a nested tree of product features.
-  - Support for parent-child relationships between features.
+#### 📎 Feature Attachments & Integrations
+- Attach documents or reference external systems like Jira, Azure DevOps, and GitHub.
+- Maintain traceability between test assets and development tasks.
 
-- 📎 **Feature Attachments & Integrations**
-  - Attach documents or reference external systems like **Jira**, **Azure DevOps**, and **GitHub**.
-  - Maintain traceability between test assets and development tasks.
+#### 🧪 Scenario-Based Test Case Management
+- Every **Feature** can contain multiple **Scenarios**.
+- Each **Scenario** can have multiple **Test Cases** linked to it.
+- Test Cases support step-by-step instructions, test data, and expected outcomes.
 
-- 🧪 **Test Case Management**
-  - Create detailed test cases for every feature.
-  - Add step-by-step instructions, expected results, and test data.
+#### 📋 Test Plans
+- Organize test efforts into reusable plans:
+  - Functional Testing
+  - Regression
+  - Performance
+  - Load Testing
+- Include relevant features, scenarios, and test cases.
 
-- 📋 **Test Plans**
-  - Organize test efforts into reusable plans for:
-    - Functional Testing
-    - Regression
-    - Performance
-    - Load Testing
-  - Include relevant features and test cases.
+#### 🚀 Test Runs
+- Execute tests from a test plan or ad hoc by selecting features, scenarios, and test cases.
+- Track results, progress, execution status, and issues.
+- Define **test data at each test step level**.
 
-- 🚀 **Test Runs**
-  - Execute tests either from a test plan or ad hoc by selecting features and test cases.
-  - Track results, progress, and issues discovered during execution.
+#### 🔌 External Test Framework Integrations
+- Integrate with frameworks like **JUnit**, **JMeter**, **Selenium**, etc.
+- Ingest test result data via APIs or service hooks.
+- Store metadata such as:
+  - Test ID
+  - Execution time
+  - Status
+  - Source system
+  - Logs and output
 
-- Support integrations with common testing frameworks such as **JUnit**, **JMeter**, **Selenium**, and others.
-  - Provide endpoints or service hooks to receive and map test result data.
-  - Store metadata including test ID, status, execution time, source system, and output logs.
+#### 🧾 Release Reports
+- Link test runs and results to specific releases across environments:
+  - Dev
+  - UAT
+  - Staging
+  - Production
+- Generate and attach environment-specific test reports to releases for audit and compliance.
+
+#### 👥 Project-Scoped Team Management
+- Each tenant can manage **multiple projects**.
+- Define team roles and access control at the project level.
+- A user can have different roles per project (e.g., Admin in one, Tester in another).
+
+#### 🔐 External Login Providers
+- Support user authentication via **Microsoft**, **Google**, and **GitHub**.
+- Allow linking external identities to existing users.
+- Enable smooth onboarding via OAuth/OpenID Connect integrations.
 
 ---
 
