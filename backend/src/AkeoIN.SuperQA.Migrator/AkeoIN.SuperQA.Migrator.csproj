@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <AssemblyName>AkeoIN.SuperQA.Migrator</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>AkeoIN.SuperQA.Migrator</PackageId>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Update="appsettings.json;log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Abp.Castle.Log4Net" Version="9.4.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AkeoIN.SuperQA.Core\AkeoIN.SuperQA.Core.csproj" />
+    <ProjectReference Include="..\AkeoIN.SuperQA.EntityFrameworkCore\AkeoIN.SuperQA.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+</Project>
