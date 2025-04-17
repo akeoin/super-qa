@@ -10,7 +10,12 @@
     "lint": "tslint --force --project src/tsconfig.json src/**/*.ts -t verbose",
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 4200",
-    "test": "ng test"
+    "test": "ng test",
+    "build": "ng build",
+    "build:dev": "ng build --configuration development",
+    "build:uat": "ng build --configuration uat",
+    "build:staging": "ng build --configuration staging",
+    "build:prod": "ng build --configuration production"
   },
   "dependencies": {
     "@angular/animations": "^18.1.2",

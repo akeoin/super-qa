@@ -1,5 +1,26 @@
 {
-    "extends": "./tsconfig.json",
-    "files": ["main.ts", "polyfills.ts"],
-    "include": ["src/**/*.d.ts", "typings.d.ts"]
-  }
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "types": [],
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "strict": false,
+    "noImplicitReturns": false,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": false
+  },
+  "files": [
+    "main.ts",
+    "polyfills.ts"
+  ],
+  "include": [
+    "**/*.ts",
+    "**/*.d.ts"
+  ],
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ]
+}

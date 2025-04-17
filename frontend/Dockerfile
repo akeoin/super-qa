@@ -1,5 +1,5 @@
 # stage 1
-FROM node:20 as node
+FROM node:22.14.0 as node
 WORKDIR /app
 COPY . .
 # This is a workaround to avoid updating appconfig.production.json file. 

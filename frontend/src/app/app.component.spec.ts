@@ -1,4 +1,4 @@
-import { TestBed, async } from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 import { AppComponent } from "./app.component";
 import { LayoutStoreService } from "../shared/layout/layout-store.service";
 import { AppSessionService } from "../shared/session/app-session.service";
@@ -31,7 +31,7 @@ import { SidebarUserPanelComponent } from "./layout/sidebar-user-panel.component
 import { SidebarMenuComponent } from "./layout/sidebar-menu.component";
 
 describe("AppComponent", () => {
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
@@ -84,14 +84,12 @@ describe("AppComponent", () => {
           },
         },
       ],
-    });
-    TestBed.compileComponents();
-  });
+    }).compileComponents();
+  }));
 
-  it("should create the app", async(() => {
+  it("should create the app", () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-  }));
-  
+  });
 });

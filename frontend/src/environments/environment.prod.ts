@@ -3,5 +3,6 @@
 export const environment = {
     production: true,
     hmr: false,
-    appConfig: 'appconfig.production.json'
+    appBaseUrl: 'https://superqa.com',
+    apiBaseUrl: 'https://api.superqa.com'
 };

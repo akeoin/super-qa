@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  api:
+    ports:
+      - "80:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=UAT
+      - ConnectionStrings__DefaultConnection=Server=mysql;Database=superqa;User=${MYSQL_USER};Password=${MYSQL_PASSWORD};Port=3306;
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+
+  frontend:
+    build:
+      args:
+        - BUILD_ENV=uat
+    ports:
+      - "80:80"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  mysql:
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=superqa
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G 
