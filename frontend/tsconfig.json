@@ -6,11 +6,9 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "composite": true,
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
-    "declaration": true,
     "declarationMap": true,
     "downlevelIteration": true,
     "experimentalDecorators": true,

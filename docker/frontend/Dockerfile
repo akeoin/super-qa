@@ -18,7 +18,7 @@ COPY frontend/ .
 RUN npm install -g @angular/cli@18.1.2
 
 # Create styles.css if it doesn't exist
-RUN touch src/styles.css
+#RUN touch src/styles.css
 
 # Build the application based on environment
 ARG BUILD_ENV=development

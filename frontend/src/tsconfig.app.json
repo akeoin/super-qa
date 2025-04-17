@@ -2,14 +2,7 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "../out-tsc/app",
-    "types": [],
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "strict": false,
-    "noImplicitReturns": false,
-    "strictPropertyInitialization": false,
-    "strictNullChecks": false
+    "types": []
   },
   "files": [
     "main.ts",

@@ -5,10 +5,7 @@
     "types": [
       "jasmine",
       "node"
-    ],
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true
+    ]
   },
   "files": [
     "test.ts",
