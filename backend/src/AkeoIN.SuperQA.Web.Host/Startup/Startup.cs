@@ -63,6 +63,7 @@ namespace AkeoIN.SuperQA.Web.Host.Startup
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials()
+                        .SetIsOriginAllowed(_ => true)
                 )
             );
 
