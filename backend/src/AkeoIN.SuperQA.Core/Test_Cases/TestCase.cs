@@ -19,17 +19,28 @@ namespace AkeoIN.SuperQA.Test_Cases
         public string Name { get; set; }
 
         [Required]
+        [StringLength(2000)]
         public string Steps { get; set; }
 
+        [StringLength(1000)]
         public string TestData { get; set; }
+
+        [Required]
+        [StringLength(1000)]
         public string ExpectedOutcome { get; set; }
+
+        [Required]
+        public string Status { get; set; }
 
         public Guid ScenarioId { get; set; }
         [ForeignKey("ScenarioId")]
         public Scenario Scenario { get; set; }
 
         public ICollection<TestRun> TestRuns { get; set; }
+
+        public TestCase()
+        {
+            TestRuns = new HashSet<TestRun>();
+        }
     }
-
-
 }

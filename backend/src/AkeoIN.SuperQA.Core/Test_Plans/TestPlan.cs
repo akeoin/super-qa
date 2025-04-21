@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Abp.Domain.Entities.Auditing;
-using AkeoIN.SuperQA.TestRuns;
 using AkeoIN.SuperQA.Features;
 
 namespace AkeoIN.SuperQA.Test_Plans
@@ -18,8 +14,17 @@ namespace AkeoIN.SuperQA.Test_Plans
         [StringLength(256)]
         public string Name { get; set; }
 
+        [StringLength(1000)]
+        public string Description { get; set; }
+
+        [Required]
+        public string Status { get; set; }
+
         public ICollection<Feature> Features { get; set; }
+
+        public TestPlan()
+        {
+            Features = new HashSet<Feature>();
+        }
     }
-
-
 }
