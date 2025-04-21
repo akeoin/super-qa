@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Entities.Auditing;
-using AkeoIN.SuperQA.Features;
 using AkeoIN.SuperQA.Test_Cases;
+using AkeoIN.SuperQA.ProductFeature;
 
 namespace AkeoIN.SuperQA.Scenarios
 {
 
-    [Table("sqa.models.Scenarios")]
+    [Table("sqa.Scenarios")]
     public class Scenario : FullAuditedEntity<Guid>
     {
         [Required]

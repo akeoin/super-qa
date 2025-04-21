@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Abp.Domain.Entities.Auditing;
-using AkeoIN.SuperQA.Features;
+using AkeoIN.SuperQA.Test_Cases;
+using System.Collections.Generic;
+using AkeoIN.SuperQA.EntityMapping;
 
 namespace AkeoIN.SuperQA.Test_Plans
 {
-    [Table("sqa.models.TestPlans")]
+    [Table("sqa.TestPlans")]
     public class TestPlan : FullAuditedEntity<Guid>
     {
         [Required]
@@ -20,11 +21,12 @@ namespace AkeoIN.SuperQA.Test_Plans
         [Required]
         public string Status { get; set; }
 
-        public ICollection<Feature> Features { get; set; }
+        public ICollection<TestPlanTestCase> TestPlanTestCases { get; set; }
 
         public TestPlan()
         {
-            Features = new HashSet<Feature>();
+            TestPlanTestCases = new HashSet<TestPlanTestCase>();
         }
     }
+
 }

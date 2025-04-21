@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 using Abp.Domain.Entities.Auditing;
 using AkeoIN.SuperQA.Scenarios;
 using AkeoIN.SuperQA.TestRuns;
+using AkeoIN.SuperQA.EntityMapping;
 
 namespace AkeoIN.SuperQA.Test_Cases
 {
-    [Table("sqa.models.TestCases")]
+    [Table("sqa.TestCases")]
     public class TestCase : FullAuditedEntity<Guid>
     {
         [Required]
@@ -33,14 +34,19 @@ namespace AkeoIN.SuperQA.Test_Cases
         public string Status { get; set; }
 
         public Guid ScenarioId { get; set; }
+
         [ForeignKey("ScenarioId")]
         public Scenario Scenario { get; set; }
 
         public ICollection<TestRun> TestRuns { get; set; }
 
+        public ICollection<TestPlanTestCase> TestPlanTestCases { get; set; }
+
         public TestCase()
         {
             TestRuns = new HashSet<TestRun>();
+            TestPlanTestCases = new HashSet<TestPlanTestCase>();
         }
     }
+
 }

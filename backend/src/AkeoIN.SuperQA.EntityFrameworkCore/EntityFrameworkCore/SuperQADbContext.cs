@@ -8,7 +8,7 @@ using AkeoIN.SuperQA.Test_Cases;
 using AkeoIN.SuperQA.Test_Plans;
 using AkeoIN.SuperQA.TestResults;
 using AkeoIN.SuperQA.TestRuns;
-using AkeoIN.SuperQA.Features;
+using AkeoIN.SuperQA.ProductFeature;
 
 namespace AkeoIN.SuperQA.EntityFrameworkCore
 {

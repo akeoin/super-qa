@@ -8,7 +8,7 @@ using AkeoIN.SuperQA.Test_Cases;
 
 namespace AkeoIN.SuperQA.TestRuns
 {
-    [Table("sqa.models.TestRuns")]
+    [Table("sqa.TestRuns")]
     public class TestRun : FullAuditedEntity<Guid>
     {
         [Required]

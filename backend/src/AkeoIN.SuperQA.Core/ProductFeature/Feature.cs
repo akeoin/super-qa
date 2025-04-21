@@ -4,11 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Abp.Domain.Entities.Auditing;
 using AkeoIN.SuperQA.Scenarios;
-using AkeoIN.SuperQA.Test_Plans;
 
-namespace AkeoIN.SuperQA.Features
+namespace AkeoIN.SuperQA.ProductFeature
 {
-    [Table("sqa.models.Features")]
+    [Table("sqa.Features")]
     public class Feature : FullAuditedEntity<Guid>
     {
         [Required]
@@ -24,10 +23,6 @@ namespace AkeoIN.SuperQA.Features
         public Guid? ParentFeatureId { get; set; }
         [ForeignKey("ParentFeatureId")]
         public Feature ParentFeature { get; set; }
-
-        public Guid TestPlanId { get; set; }
-        [ForeignKey("TestPlanId")]
-        public TestPlan TestPlan { get; set; }
 
         public ICollection<Feature> ChildFeatures { get; set; }
         public ICollection<Scenario> Scenarios { get; set; }
