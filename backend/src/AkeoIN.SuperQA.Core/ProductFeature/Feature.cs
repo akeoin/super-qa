@@ -8,7 +8,7 @@ using AkeoIN.SuperQA.Scenarios;
 namespace AkeoIN.SuperQA.ProductFeature
 {
     [Table("sqa.Features")]
-    public class Feature : FullAuditedEntity<Guid>
+    public class Feature : FullAuditedEntity<int>
     {
         [Required]
         [StringLength(256)]
@@ -20,7 +20,7 @@ namespace AkeoIN.SuperQA.ProductFeature
         [Required]
         public string Status { get; set; }
 
-        public Guid? ParentFeatureId { get; set; }
+        public int? ParentFeatureId { get; set; }
         [ForeignKey("ParentFeatureId")]
         public Feature ParentFeature { get; set; }
 

@@ -11,14 +11,14 @@ using AkeoIN.SuperQA.Test_Plans;
 namespace AkeoIN.SuperQA.EntityMapping
 {
     [Table("sqa.TestPlanTestCases")]
-    public class TestPlanTestCase : FullAuditedEntity<Guid>
+    public class TestPlanTestCase : FullAuditedEntity<int>
     {
-        public Guid TestPlanId { get; set; }
+        public int TestPlanId { get; set; }
 
         [ForeignKey(nameof(TestPlanId))]
         public TestPlan TestPlan { get; set; }
 
-        public Guid TestCaseId { get; set; }
+        public int TestCaseId { get; set; }
 
         [ForeignKey(nameof(TestCaseId))]
         public TestCase TestCase { get; set; }

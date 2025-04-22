@@ -13,7 +13,7 @@ using AkeoIN.SuperQA.EntityMapping;
 namespace AkeoIN.SuperQA.Test_Cases
 {
     [Table("sqa.TestCases")]
-    public class TestCase : FullAuditedEntity<Guid>
+    public class TestCase : FullAuditedEntity<int>
     {
         [Required]
         [StringLength(256)]
@@ -33,7 +33,7 @@ namespace AkeoIN.SuperQA.Test_Cases
         [Required]
         public string Status { get; set; }
 
-        public Guid ScenarioId { get; set; }
+        public int ScenarioId { get; set; }
 
         [ForeignKey("ScenarioId")]
         public Scenario Scenario { get; set; }
@@ -48,5 +48,4 @@ namespace AkeoIN.SuperQA.Test_Cases
             TestPlanTestCases = new HashSet<TestPlanTestCase>();
         }
     }
-
 }

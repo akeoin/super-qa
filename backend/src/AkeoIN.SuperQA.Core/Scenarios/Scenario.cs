@@ -13,7 +13,7 @@ namespace AkeoIN.SuperQA.Scenarios
 {
 
     [Table("sqa.Scenarios")]
-    public class Scenario : FullAuditedEntity<Guid>
+    public class Scenario : FullAuditedEntity<int>
     {
         [Required]
         [StringLength(256)]
@@ -25,7 +25,7 @@ namespace AkeoIN.SuperQA.Scenarios
         [Required]
         public string Status { get; set; }
 
-        public Guid FeatureId { get; set; }
+        public int FeatureId { get; set; }
         [ForeignKey("FeatureId")]
         public Feature Feature { get; set; }
 
