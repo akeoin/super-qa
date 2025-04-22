@@ -553,6 +553,64 @@ namespace AkeoIN.SuperQA.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "sqa.Features",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Status = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ParentFeatureId = table.Column<int>(type: "int", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DeleterUserId = table.Column<long>(type: "bigint", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_sqa.Features", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_sqa.Features_sqa.Features_ParentFeatureId",
+                        column: x => x.ParentFeatureId,
+                        principalTable: "sqa.Features",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "sqa.TestPlans",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Status = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DeleterUserId = table.Column<long>(type: "bigint", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_sqa.TestPlans", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "AbpDynamicEntityProperties",
                 columns: table => new
                 {
@@ -909,6 +967,39 @@ namespace AkeoIN.SuperQA.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "sqa.Scenarios",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Status = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FeatureId = table.Column<int>(type: "int", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DeleterUserId = table.Column<long>(type: "bigint", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_sqa.Scenarios", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_sqa.Scenarios_sqa.Features_FeatureId",
+                        column: x => x.FeatureId,
+                        principalTable: "sqa.Features",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "AbpDynamicEntityPropertyValues",
                 columns: table => new
                 {
@@ -1023,6 +1114,145 @@ namespace AkeoIN.SuperQA.Migrations
                         name: "FK_AbpRoleClaims_AbpRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AbpRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "sqa.TestCases",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Steps = table.Column<string>(type: "varchar(2000)", maxLength: 2000, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TestData = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ExpectedOutcome = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Status = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ScenarioId = table.Column<int>(type: "int", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DeleterUserId = table.Column<long>(type: "bigint", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_sqa.TestCases", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_sqa.TestCases_sqa.Scenarios_ScenarioId",
+                        column: x => x.ScenarioId,
+                        principalTable: "sqa.Scenarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "sqa.TestPlanTestCases",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    TestPlanId = table.Column<int>(type: "int", nullable: false),
+                    TestCaseId = table.Column<int>(type: "int", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DeleterUserId = table.Column<long>(type: "bigint", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_sqa.TestPlanTestCases", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_sqa.TestPlanTestCases_sqa.TestCases_TestCaseId",
+                        column: x => x.TestCaseId,
+                        principalTable: "sqa.TestCases",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_sqa.TestPlanTestCases_sqa.TestPlans_TestPlanId",
+                        column: x => x.TestPlanId,
+                        principalTable: "sqa.TestPlans",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "sqa.TestRuns",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TestCaseId = table.Column<int>(type: "int", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DeleterUserId = table.Column<long>(type: "bigint", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_sqa.TestRuns", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_sqa.TestRuns_sqa.TestCases_TestCaseId",
+                        column: x => x.TestCaseId,
+                        principalTable: "sqa.TestCases",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "sqa.TestResults",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    TestCaseId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Logs = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ExecutionTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    TestRunId = table.Column<int>(type: "int", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DeleterUserId = table.Column<long>(type: "bigint", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_sqa.TestResults", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_sqa.TestResults_sqa.TestCases_TestCaseId",
+                        column: x => x.TestCaseId,
+                        principalTable: "sqa.TestCases",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_sqa.TestResults_sqa.TestRuns_TestRunId",
+                        column: x => x.TestRunId,
+                        principalTable: "sqa.TestRuns",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -1376,6 +1606,46 @@ namespace AkeoIN.SuperQA.Migrations
                 name: "IX_AbpWebhookSendAttempts_WebhookEventId",
                 table: "AbpWebhookSendAttempts",
                 column: "WebhookEventId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_sqa.Features_ParentFeatureId",
+                table: "sqa.Features",
+                column: "ParentFeatureId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_sqa.Scenarios_FeatureId",
+                table: "sqa.Scenarios",
+                column: "FeatureId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_sqa.TestCases_ScenarioId",
+                table: "sqa.TestCases",
+                column: "ScenarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_sqa.TestPlanTestCases_TestCaseId",
+                table: "sqa.TestPlanTestCases",
+                column: "TestCaseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_sqa.TestPlanTestCases_TestPlanId",
+                table: "sqa.TestPlanTestCases",
+                column: "TestPlanId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_sqa.TestResults_TestCaseId",
+                table: "sqa.TestResults",
+                column: "TestCaseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_sqa.TestResults_TestRunId",
+                table: "sqa.TestResults",
+                column: "TestRunId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_sqa.TestRuns_TestCaseId",
+                table: "sqa.TestRuns",
+                column: "TestCaseId");
         }
 
         /// <inheritdoc />
@@ -1463,6 +1733,12 @@ namespace AkeoIN.SuperQA.Migrations
                 name: "AbpWebhookSubscriptions");
 
             migrationBuilder.DropTable(
+                name: "sqa.TestPlanTestCases");
+
+            migrationBuilder.DropTable(
+                name: "sqa.TestResults");
+
+            migrationBuilder.DropTable(
                 name: "AbpDynamicEntityProperties");
 
             migrationBuilder.DropTable(
@@ -1478,6 +1754,12 @@ namespace AkeoIN.SuperQA.Migrations
                 name: "AbpWebhookEvents");
 
             migrationBuilder.DropTable(
+                name: "sqa.TestPlans");
+
+            migrationBuilder.DropTable(
+                name: "sqa.TestRuns");
+
+            migrationBuilder.DropTable(
                 name: "AbpDynamicProperties");
 
             migrationBuilder.DropTable(
@@ -1485,6 +1767,15 @@ namespace AkeoIN.SuperQA.Migrations
 
             migrationBuilder.DropTable(
                 name: "AbpUsers");
+
+            migrationBuilder.DropTable(
+                name: "sqa.TestCases");
+
+            migrationBuilder.DropTable(
+                name: "sqa.Scenarios");
+
+            migrationBuilder.DropTable(
+                name: "sqa.Features");
         }
     }
 }

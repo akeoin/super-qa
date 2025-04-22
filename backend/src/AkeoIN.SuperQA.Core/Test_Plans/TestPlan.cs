@@ -9,7 +9,7 @@ using AkeoIN.SuperQA.EntityMapping;
 namespace AkeoIN.SuperQA.Test_Plans
 {
     [Table("sqa.TestPlans")]
-    public class TestPlan : FullAuditedEntity<Guid>
+    public class TestPlan : FullAuditedEntity<int>
     {
         [Required]
         [StringLength(256)]
@@ -28,5 +28,4 @@ namespace AkeoIN.SuperQA.Test_Plans
             TestPlanTestCases = new HashSet<TestPlanTestCase>();
         }
     }
-
 }

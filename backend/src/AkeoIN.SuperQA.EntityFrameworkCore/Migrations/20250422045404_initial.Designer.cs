@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AkeoIN.SuperQA.Migrations
 {
     [DbContext(typeof(SuperQADbContext))]
-    [Migration("20250415120710_initial")]
+    [Migration("20250422045404_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -1583,6 +1583,50 @@ namespace AkeoIN.SuperQA.Migrations
                     b.ToTable("AbpUsers");
                 });
 
+            modelBuilder.Entity("AkeoIN.SuperQA.EntityMapping.TestPlanTestCase", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("TestCaseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TestPlanId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestCaseId");
+
+                    b.HasIndex("TestPlanId");
+
+                    b.ToTable("sqa.TestPlanTestCases");
+                });
+
             modelBuilder.Entity("AkeoIN.SuperQA.MultiTenancy.Tenant", b =>
                 {
                     b.Property<int>("Id")
@@ -1645,6 +1689,318 @@ namespace AkeoIN.SuperQA.Migrations
                     b.HasIndex("TenancyName");
 
                     b.ToTable("AbpTenants");
+                });
+
+            modelBuilder.Entity("AkeoIN.SuperQA.ProductFeature.Feature", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<int?>("ParentFeatureId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentFeatureId");
+
+                    b.ToTable("sqa.Features");
+                });
+
+            modelBuilder.Entity("AkeoIN.SuperQA.Scenarios.Scenario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<int>("FeatureId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FeatureId");
+
+                    b.ToTable("sqa.Scenarios");
+                });
+
+            modelBuilder.Entity("AkeoIN.SuperQA.TestResults.TestResult", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("ExecutionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Logs")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int>("TestCaseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TestRunId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestCaseId");
+
+                    b.HasIndex("TestRunId");
+
+                    b.ToTable("sqa.TestResults");
+                });
+
+            modelBuilder.Entity("AkeoIN.SuperQA.TestRuns.TestRun", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<int>("TestCaseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestCaseId");
+
+                    b.ToTable("sqa.TestRuns");
+                });
+
+            modelBuilder.Entity("AkeoIN.SuperQA.Test_Cases.TestCase", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ExpectedOutcome")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<int>("ScenarioId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Steps")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("varchar(2000)");
+
+                    b.Property<string>("TestData")
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ScenarioId");
+
+                    b.ToTable("sqa.TestCases");
+                });
+
+            modelBuilder.Entity("AkeoIN.SuperQA.Test_Plans.TestPlan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("sqa.TestPlans");
                 });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
@@ -1865,6 +2221,25 @@ namespace AkeoIN.SuperQA.Migrations
                     b.Navigation("LastModifierUser");
                 });
 
+            modelBuilder.Entity("AkeoIN.SuperQA.EntityMapping.TestPlanTestCase", b =>
+                {
+                    b.HasOne("AkeoIN.SuperQA.Test_Cases.TestCase", "TestCase")
+                        .WithMany("TestPlanTestCases")
+                        .HasForeignKey("TestCaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AkeoIN.SuperQA.Test_Plans.TestPlan", "TestPlan")
+                        .WithMany("TestPlanTestCases")
+                        .HasForeignKey("TestPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TestCase");
+
+                    b.Navigation("TestPlan");
+                });
+
             modelBuilder.Entity("AkeoIN.SuperQA.MultiTenancy.Tenant", b =>
                 {
                     b.HasOne("AkeoIN.SuperQA.Authorization.Users.User", "CreatorUser")
@@ -1890,6 +2265,67 @@ namespace AkeoIN.SuperQA.Migrations
                     b.Navigation("Edition");
 
                     b.Navigation("LastModifierUser");
+                });
+
+            modelBuilder.Entity("AkeoIN.SuperQA.ProductFeature.Feature", b =>
+                {
+                    b.HasOne("AkeoIN.SuperQA.ProductFeature.Feature", "ParentFeature")
+                        .WithMany("ChildFeatures")
+                        .HasForeignKey("ParentFeatureId");
+
+                    b.Navigation("ParentFeature");
+                });
+
+            modelBuilder.Entity("AkeoIN.SuperQA.Scenarios.Scenario", b =>
+                {
+                    b.HasOne("AkeoIN.SuperQA.ProductFeature.Feature", "Feature")
+                        .WithMany("Scenarios")
+                        .HasForeignKey("FeatureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Feature");
+                });
+
+            modelBuilder.Entity("AkeoIN.SuperQA.TestResults.TestResult", b =>
+                {
+                    b.HasOne("AkeoIN.SuperQA.Test_Cases.TestCase", "TestCase")
+                        .WithMany()
+                        .HasForeignKey("TestCaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AkeoIN.SuperQA.TestRuns.TestRun", "TestRun")
+                        .WithMany("TestResults")
+                        .HasForeignKey("TestRunId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TestCase");
+
+                    b.Navigation("TestRun");
+                });
+
+            modelBuilder.Entity("AkeoIN.SuperQA.TestRuns.TestRun", b =>
+                {
+                    b.HasOne("AkeoIN.SuperQA.Test_Cases.TestCase", "TestCase")
+                        .WithMany("TestRuns")
+                        .HasForeignKey("TestCaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TestCase");
+                });
+
+            modelBuilder.Entity("AkeoIN.SuperQA.Test_Cases.TestCase", b =>
+                {
+                    b.HasOne("AkeoIN.SuperQA.Scenarios.Scenario", "Scenario")
+                        .WithMany("TestCases")
+                        .HasForeignKey("ScenarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Scenario");
                 });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
@@ -1961,6 +2397,35 @@ namespace AkeoIN.SuperQA.Migrations
                     b.Navigation("Settings");
 
                     b.Navigation("Tokens");
+                });
+
+            modelBuilder.Entity("AkeoIN.SuperQA.ProductFeature.Feature", b =>
+                {
+                    b.Navigation("ChildFeatures");
+
+                    b.Navigation("Scenarios");
+                });
+
+            modelBuilder.Entity("AkeoIN.SuperQA.Scenarios.Scenario", b =>
+                {
+                    b.Navigation("TestCases");
+                });
+
+            modelBuilder.Entity("AkeoIN.SuperQA.TestRuns.TestRun", b =>
+                {
+                    b.Navigation("TestResults");
+                });
+
+            modelBuilder.Entity("AkeoIN.SuperQA.Test_Cases.TestCase", b =>
+                {
+                    b.Navigation("TestPlanTestCases");
+
+                    b.Navigation("TestRuns");
+                });
+
+            modelBuilder.Entity("AkeoIN.SuperQA.Test_Plans.TestPlan", b =>
+                {
+                    b.Navigation("TestPlanTestCases");
                 });
 #pragma warning restore 612, 618
         }

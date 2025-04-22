@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Abp.Castle.Log4Net" Version="9.4.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.13" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AkeoIN.SuperQA.Core\AkeoIN.SuperQA.Core.csproj" />
