@@ -21,6 +21,12 @@ namespace AkeoIN.SuperQA.Test_Plans
         [Required]
         public string Status { get; set; }
 
+        public int TestCaseId { get; set; }
+        [ForeignKey("TestCaseId")]
+
+        [Required]
+        public TestCase TestCase { get; set; }
+
         public ICollection<TestPlanTestCase> TestPlanTestCases { get; set; }
 
         public TestPlan()

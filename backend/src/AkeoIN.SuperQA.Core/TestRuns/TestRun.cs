@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using Abp.Domain.Entities.Auditing;
 using AkeoIN.SuperQA.TestResults;
 using AkeoIN.SuperQA.Test_Cases;
+using AkeoIN.SuperQA.Test_Plans;
 
 namespace AkeoIN.SuperQA.TestRuns
 {
@@ -19,6 +20,12 @@ namespace AkeoIN.SuperQA.TestRuns
         [ForeignKey("TestCaseId")]
         public TestCase TestCase { get; set; }
 
+        [Required]
+        public int TestPlanId { get; set; }
+        [ForeignKey("TestPlanId")]
+
+        [Required]
+        public TestPlan TestPlan { get; set; }
         public ICollection<TestResult> TestResults { get; set; }
 
         public TestRun()
