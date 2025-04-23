@@ -54,10 +54,6 @@ namespace AkeoIN.SuperQA.TestRuns
         protected override TestRunDto MapToEntityDto(TestRun entity)
         {
             var testRunDto = base.MapToEntityDto(entity);
-            if (entity.TestCase != null)
-            {
-                testRunDto.TestCaseName = entity.TestCase.Name;
-            }
             testRunDto.TestResultCount = entity.TestResults?.Count ?? 0;
             return testRunDto;
         }
