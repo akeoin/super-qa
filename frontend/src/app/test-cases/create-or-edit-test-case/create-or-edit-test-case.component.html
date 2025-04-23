@@ -1,0 +1,52 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    <span *ngIf="!id">{{ "CreateNewTestCase" | localize }}</span>
+    <span *ngIf="id">{{ "EditTestCase" | localize }}</span>
+  </h4>
+  <button type="button" class="close" (click)="bsModalRef.hide()" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="form-group">
+      <label for="name">{{ 'Name' | localize }}</label>
+      <input id="name" type="text" class="form-control" formControlName="name">
+    </div>
+    <div class="form-group">
+      <label for="steps">{{ 'Steps' | localize }}</label>
+      <textarea id="steps" class="form-control" formControlName="steps"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="testData">{{ 'Test Data' | localize }}</label>
+      <input id="testData" type="text" class="form-control" formControlName="testData">
+    </div>
+    <div class="form-group">
+      <label for="expectedOutcome">{{ 'Expected Outcome' | localize }}</label>
+      <input id="expectedOutcome" type="text" class="form-control" formControlName="expectedOutcome">
+    </div>
+    <div class="form-group">
+      <label for="status">{{ 'Status' | localize }}</label>
+      <select id="status" class="form-control" formControlName="status">
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="scenarioId">{{ 'Scenario ID' | localize }}</label>
+      <input id="scenarioId" type="number" class="form-control" formControlName="scenarioId">
+    </div>
+    <div class="form-group">
+      <label for="scenarioName">{{ 'Scenario Name' | localize }}</label>
+      <input id="scenarioName" type="text" class="form-control" formControlName="scenarioName">
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()">{{ "Cancel" | localize }}</button>
+  <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!form.valid || saving">
+    <i class="fa fa-save"></i> {{ "Save" | localize }}
+  </button>
+</div> 
