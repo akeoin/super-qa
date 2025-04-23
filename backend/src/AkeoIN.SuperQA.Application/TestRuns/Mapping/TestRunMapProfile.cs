@@ -9,9 +9,7 @@ namespace AkeoIN.SuperQA.TestRuns.Mapping
         {
             CreateMap<TestRun, TestRunDto>()
                 .ForMember(dto => dto.TestResultCount,
-                    opt => opt.MapFrom(src => src.TestResults != null ? src.TestResults.Count : 0))
-                .ForMember(dto => dto.TestCaseName,
-                    opt => opt.MapFrom(src => src.TestCase != null ? src.TestCase.Name : null));
+                    opt => opt.MapFrom(src => src.TestResults != null ? src.TestResults.Count : 0));
 
             CreateMap<CreateTestRunDto, TestRun>();
             CreateMap<TestRunDto, TestRun>();

@@ -1,5 +1,8 @@
 {
   "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "composite": true
+  },
   "files": ["test.ts", "polyfills.ts"],
   "include": ["src/**/*.d.ts", "typings.d.ts", "src/**/*.spec.ts", "**/*.spec.ts"]
 }
