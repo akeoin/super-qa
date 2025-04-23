@@ -1,85 +1,42 @@
-import { AbpMultiTenancyService } from 'abp-ng2-module';
 import { Injectable } from '@angular/core';
-import {
-    ApplicationInfoDto,
-    GetCurrentLoginInformationsOutput,
-    SessionServiceProxy,
-    TenantLoginInfoDto,
-    UserLoginInfoDto
-} from '@shared/service-proxies/service-proxies';
+import { AbpSessionService } from 'abp-ng2-module';
 
 @Injectable()
 export class AppSessionService {
+    constructor(private _abpSessionService: AbpSessionService) {}
 
-    private _user: UserLoginInfoDto;
-    private _tenant: TenantLoginInfoDto;
-    private _application: ApplicationInfoDto;
-
-    constructor(
-        private _sessionService: SessionServiceProxy,
-        private _abpMultiTenancyService: AbpMultiTenancyService) {
+    get application(): any {
+        return (window as any).abp?.application;
     }
 
-    get application(): ApplicationInfoDto {
-        return this._application;
-    }
-
-    get user(): UserLoginInfoDto {
-        return this._user;
+    get user(): any {
+        return (window as any).abp?.session?.user;
     }
 
     get userId(): number {
-        return this.user ? this.user.id : null;
+        return (window as any).abp?.session?.userId;
     }
 
-    get tenant(): TenantLoginInfoDto {
-        return this._tenant;
+    get tenant(): any {
+        return (window as any).abp?.session?.tenant;
     }
 
     get tenantId(): number {
-        return this.tenant ? this.tenant.id : null;
+        return (window as any).abp?.session?.tenantId;
     }
 
     getShownLoginName(): string {
-        const userName = this._user.userName;
-        if (!this._abpMultiTenancyService.isEnabled) {
+        const userName = this.user?.userName;
+        if (!this._abpSessionService.tenantId) {
             return userName;
         }
 
-        return (this._tenant ? this._tenant.tenancyName : '.') + '\\' + userName;
+        return (this.tenant ? this.tenant.tenancyName : '.') + '\\' + userName;
     }
 
     init(): Promise<boolean> {
-        return new Promise<boolean>((resolve, reject) => {
-            this._sessionService.getCurrentLoginInformations().toPromise().then((result: GetCurrentLoginInformationsOutput) => {
-                this._application = result.application;
-                this._user = result.user;
-                this._tenant = result.tenant;
-
-                resolve(true);
-            }, (err) => {
-                reject(err);
-            });
+        return new Promise<boolean>((resolve) => {
+            resolve(true);
         });
-    }
-
-    changeTenantIfNeeded(tenantId?: number): boolean {
-        if (this.isCurrentTenant(tenantId)) {
-            return false;
-        }
-
-        abp.multiTenancy.setTenantIdCookie(tenantId);
-        location.reload();
-        return true;
-    }
-
-    private isCurrentTenant(tenantId?: number) {
-        if (!tenantId && this.tenant) {
-            return false;
-        } else if (tenantId && (!this.tenant || this.tenant.id !== tenantId)) {
-            return false;
-        }
-
-        return true;
     }
 }

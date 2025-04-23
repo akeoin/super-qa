@@ -1,0 +1,33 @@
+<div class="card">
+    <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="form-group">
+                <label for="name">{{ 'FeatureName' | localize }}</label>
+                <input type="text" class="form-control" id="name" formControlName="name" required>
+            </div>
+            <div class="form-group">
+                <label for="description">{{ 'Description' | localize }}</label>
+                <textarea class="form-control" id="description" formControlName="description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="isActive">{{ 'Status' | localize }}</label>
+                <select class="form-control" id="isActive" formControlName="isActive">
+                    <option [ngValue]="true">{{ 'Active' | localize }}</option>
+                    <option [ngValue]="false">{{ 'Inactive' | localize }}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="projectId">{{ 'Project' | localize }}</label>
+                <input type="number" class="form-control" id="projectId" formControlName="projectId" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" [disabled]="!form.valid || saving">
+                    <i class="fa fa-save"></i> {{ 'Save' | localize }}
+                </button>
+                <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">
+                    {{ 'Cancel' | localize }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div> 

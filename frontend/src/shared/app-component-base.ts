@@ -1,5 +1,5 @@
 import { Injector, ElementRef } from '@angular/core';
-import { AppConsts } from '@shared/AppConsts';
+import { AppConsts } from './AppConsts';
 import {
     LocalizationService,
     PermissionCheckerService,
@@ -10,7 +10,7 @@ import {
     AbpMultiTenancyService
 } from 'abp-ng2-module';
 
-import { AppSessionService } from '@shared/session/app-session.service';
+import { AppSessionService } from './session/app-session.service';
 
 export abstract class AppComponentBase {
 

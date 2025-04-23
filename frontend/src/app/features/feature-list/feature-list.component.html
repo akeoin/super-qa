@@ -3,12 +3,12 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-6">
-          <h1>{{ "Test Cases" | localize }}</h1>
+          <h1>{{ "Features" | localize }}</h1>
         </div>
         <div class="col-6 text-right">
           <a href="javascript:;"
             class="btn bg-blue"
-            (click)="createTestCase()">
+            (click)="createFeature()">
             <i class="fa fa-plus-square"></i>
             {{ "Create" | localize }}
           </a>
@@ -46,45 +46,43 @@
               <thead class="bg-light">
                 <tr>
                   <th>{{ "Name" | localize }}</th>
+                  <th>{{ "Description" | localize }}</th>
                   <th>{{ "Status" | localize }}</th>
-                  <th>{{ "Scenario" | localize }}</th>
-                  <!--<th>{{ "CreationTime" | localize }}</th>-->
                   <th style="width: 200px;">{{ "Actions" | localize }}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngIf="isTableLoading">
-                  <td colspan="5" class="text-center">
+                  <td colspan="4" class="text-center">
                     <i class="fas fa-spinner fa-spin"></i> {{ "Loading" | localize }}
                   </td>
                 </tr>
-                <tr *ngIf="!isTableLoading && (!testCases || testCases.length === 0)">
-                  <td colspan="5" class="text-center">
+                <tr *ngIf="!isTableLoading && (!features || features.length === 0)">
+                  <td colspan="4" class="text-center">
                     {{ "NoDataAvailable" | localize }}
                   </td>
                 </tr>
-                <tr *ngFor="let testCase of testCases">
-                  <td>{{ testCase.name }}</td>
+                <tr *ngFor="let feature of features">
+                  <td>{{ feature.name }}</td>
+                  <td>{{ feature.description }}</td>
                   <td>
                     <span class="badge" [ngClass]="{
-                      'badge-primary': testCase.status === 'active',
-                      'badge-secondary': testCase.status === 'inactive'
+                      'badge-success': feature.isActive,
+                      'badge-danger': !feature.isActive
                     }">
-                      {{ getStatusText(testCase.status) }}
+                      {{ getStatusText(feature.isActive) }}
                     </span>
                   </td>
-                  <td>{{ testCase.scenarioName }}</td>
-                  <!--<td>{{ testCase.creationTime | date:'medium' }}</td>-->
                   <td>
                     <button type="button"
                       class="btn btn-sm bg-secondary"
-                      (click)="editTestCase(testCase)">
+                      (click)="editFeature(feature)">
                       <i class="fas fa-pencil-alt"></i>
                       {{ "Edit" | localize }}
                     </button>
                     <button type="button"
                       class="btn btn-sm bg-danger mx-2"
-                      (click)="delete(testCase)">
+                      (click)="delete(feature)">
                       <i class="fas fa-trash"></i>
                       {{ "Delete" | localize }}
                     </button>
@@ -104,7 +102,7 @@
             </div>
             <div class="col-sm-4 col-12 text-center">
               <p class="mb-0 my-2">
-                {{ "TotalRecordsCount" | localize: (testCases?.length || 0) }}
+                {{ "TotalRecordsCount" | localize: (features?.length || 0) }}
               </p>
             </div>
           </div>

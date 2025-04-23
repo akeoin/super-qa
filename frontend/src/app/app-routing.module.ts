@@ -45,6 +45,11 @@ import { TestCaseListComponent } from './test-cases/test-case-list/test-case-lis
                         canActivate: [AppRouteGuard]
                     },
                     {
+                        path: 'features',
+                        loadChildren: () => import('./features/features.module').then((m) => m.FeaturesModule),
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
                         path: 'test-cases',
                         component: TestCaseListComponent,
                         canActivate: [AppRouteGuard]
