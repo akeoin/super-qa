@@ -1,40 +1,113 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services;
+using Abp.Application.Services.Dto;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
 using Abp.Extensions;
 using Abp.Linq.Extensions;
 using AkeoIN.SuperQA.Scenarios.Dtos;
+using Castle.Core.Logging;
 using Microsoft.EntityFrameworkCore;
 
 namespace AkeoIN.SuperQA.Scenarios
 {
     public class ScenarioAppService : AsyncCrudAppService<Scenario, ScenarioDto, int, PagedScenarioResultRequestDto, CreateScenarioDto, ScenarioDto>, IScenarioAppService
     {
+        public ILogger Logger { get; set; }
+
         public ScenarioAppService(IRepository<Scenario, int> repository) : base(repository)
         {
+            Logger = NullLogger.Instance;
+        }
+
+        public override async Task<ScenarioDto> CreateAsync(CreateScenarioDto input)
+        {
+            try
+            {
+                Logger.Info($"Creating scenario: {input.Name}");
+                var result = await base.CreateAsync(input);
+                Logger.Info($"Successfully created scenario: {input.Name}");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to create scenario: {input.Name}", ex);
+                throw;
+            }
+        }
+
+        public override async Task<ScenarioDto> UpdateAsync(ScenarioDto input)
+        {
+            try
+            {
+                Logger.Info($"Updating scenario: {input.Name}");
+                var result = await base.UpdateAsync(input);
+                Logger.Info($"Successfully updated scenario: {input.Name}");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to update scenario: {input.Name}", ex);
+                throw;
+            }
+        }
+
+        public override async Task DeleteAsync(EntityDto<int> input)
+        {
+            try
+            {
+                var scenario = await GetEntityByIdAsync(input.Id);
+                Logger.Info($"Deleting scenario: {scenario.Name}");
+                await base.DeleteAsync(input);
+                Logger.Info($"Successfully deleted scenario: {scenario.Name}");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to delete scenario with ID: {input.Id}", ex);
+                throw;
+            }
         }
 
         protected override IQueryable<Scenario> CreateFilteredQuery(PagedScenarioResultRequestDto input)
         {
-            return Repository.GetAllIncluding(x => x.Feature)
-                .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.Name.Contains(input.Keyword) || x.Description.Contains(input.Keyword))
-                .WhereIf(!input.Status.IsNullOrWhiteSpace(), x => x.Status == input.Status)
-                .WhereIf(input.FeatureId.HasValue, x => x.FeatureId == input.FeatureId.Value);
+            try
+            {
+                Logger.Debug($"Filtering scenarios with keyword: {input.Keyword}, status: {input.Status}");
+                var query = Repository.GetAllIncluding(x => x.Feature)
+                    .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.Name.Contains(input.Keyword) || x.Description.Contains(input.Keyword))
+                    .WhereIf(!input.Status.IsNullOrWhiteSpace(), x => x.Status == input.Status)
+                    .WhereIf(input.FeatureId.HasValue, x => x.FeatureId == input.FeatureId.Value);
+                return query;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to filter scenarios", ex);
+                throw;
+            }
         }
 
         protected override async Task<Scenario> GetEntityByIdAsync(int id)
         {
-            var scenario = await Repository.GetAllIncluding(x => x.Feature)
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            if (scenario == null)
+            try
             {
-                throw new EntityNotFoundException(typeof(Scenario), id);
-            }
+                Logger.Debug($"Getting scenario by ID: {id}");
+                var scenario = await Repository.GetAllIncluding(x => x.Feature)
+                    .FirstOrDefaultAsync(x => x.Id == id);
 
-            return scenario;
+                if (scenario == null)
+                {
+                    throw new EntityNotFoundException(typeof(Scenario), id);
+                }
+
+                return scenario;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get scenario by ID: {id}", ex);
+                throw;
+            }
         }
 
         protected override IQueryable<Scenario> ApplySorting(IQueryable<Scenario> query, PagedScenarioResultRequestDto input)

@@ -11,6 +11,9 @@ using AkeoIN.SuperQA.Configuration;
 using AkeoIN.SuperQA.Localization;
 using AkeoIN.SuperQA.MultiTenancy;
 using AkeoIN.SuperQA.Timing;
+using AkeoIN.SuperQA.ProductFeature;
+using Abp;
+using AkeoIN.SuperQA.Scenarios;
 
 namespace AkeoIN.SuperQA
 {
@@ -40,6 +43,29 @@ namespace AkeoIN.SuperQA
             
             Configuration.Settings.SettingEncryptionConfiguration.DefaultPassPhrase = SuperQAConsts.DefaultPassPhrase;
             SimpleStringCipher.DefaultPassPhrase = SuperQAConsts.DefaultPassPhrase;
+
+            // Enable entity history tracking for Feature entity
+            Configuration.EntityHistory.Selectors.Add(
+                new NamedTypeSelector(
+                    "Feature",
+                    type => type == typeof(Feature)
+                )
+            );
+
+            Configuration.EntityHistory.Selectors.Add(
+                new NamedTypeSelector(
+                    "Scenario",
+                    type => type == typeof(Scenario)
+                )
+            );
+
+            // Enable entity history tracking for Tenant entity
+            Configuration.EntityHistory.Selectors.Add(
+                new NamedTypeSelector(
+                    "Tenant",
+                    type => type == typeof(Tenant)
+                )
+            );
         }
 
         public override void Initialize()
