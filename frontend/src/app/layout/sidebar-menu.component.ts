@@ -49,6 +49,12 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
                 'fas fa-tasks'
             ),
             new MenuItem(
+                this.l('Product Features'),
+                '/app/product-features',
+                'fas fa-list'
+                // 'Pages.ProductFeatures'
+            ),
+            new MenuItem(
                 this.l('Roles'),
                 '/app/roles',
                 'fas fa-theater-masks',

@@ -1,0 +1,44 @@
+<div class="feature-tree">
+    <div *ngIf="features.length === 0" class="text-center p-3">
+        {{ "NoFeaturesAvailable" | localize }}
+    </div>
+    <ul class="tree-list">
+        <li class="tree-item" *ngFor="let node of features">
+            <div class="tree-node" (click)="toggleNode(node.id)">
+                <span class="toggle-icon" *ngIf="hasChildren(node)">
+                    {{ isExpanded(node.id) ? '▼' : '▶' }}
+                </span>
+                <span class="feature-name">
+                    {{ node.name }}
+                    <span class="badge" *ngIf="node.isEnabled">Enabled</span>
+                </span>
+            </div>
+            <ul class="tree-list" *ngIf="hasChildren(node) && isExpanded(node.id)">
+                <li class="tree-item" *ngFor="let child of node.children">
+                    <div class="tree-node" (click)="toggleNode(child.id)">
+                        <span class="toggle-icon" *ngIf="hasChildren(child)">
+                            {{ isExpanded(child.id) ? '▼' : '▶' }}
+                        </span>
+                        <span class="feature-name">
+                            {{ child.name }}
+                            <span class="badge" *ngIf="child.isEnabled">Enabled</span>
+                        </span>
+                    </div>
+                    <ul class="tree-list" *ngIf="hasChildren(child) && isExpanded(child.id)">
+                        <li class="tree-item" *ngFor="let grandChild of child.children">
+                            <div class="tree-node" (click)="toggleNode(grandChild.id)">
+                                <span class="toggle-icon" *ngIf="hasChildren(grandChild)">
+                                    {{ isExpanded(grandChild.id) ? '▼' : '▶' }}
+                                </span>
+                                <span class="feature-name">
+                                    {{ grandChild.name }}
+                                    <span class="badge" *ngIf="grandChild.isEnabled">Enabled</span>
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div> 

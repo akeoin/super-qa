@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppSessionService } from './session/app-session.service';
 import { AppUrlService } from './nav/app-url.service';
 import { AppAuthService } from './auth/app-auth.service';
 import { AppRouteGuard } from './auth/auth-route-guard';
-import { LocalizePipe } from '@shared/pipes/localize.pipe';
+import { LocalizePipe } from './pipes/localize.pipe';
 
 import { AbpPaginationControlsComponent } from './components/pagination/abp-pagination-controls.component';
 import { AbpValidationSummaryComponent } from './components/validation/abp-validation.summary.component';
@@ -29,6 +29,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
         RouterModule,
         NgxPaginationModule,
         FormsModule,
+        ReactiveFormsModule,
         ModalModule,
         BsDropdownModule,
         CollapseModule,
@@ -52,6 +53,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
         BusyDirective,
         EqualValidator,
         FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
         NgxPaginationModule,
         ModalModule,
         BsDropdownModule,

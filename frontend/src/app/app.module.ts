@@ -22,8 +22,10 @@ import { SidebarComponent } from './layout/sidebar.component';
 import { SidebarLogoComponent } from './layout/sidebar-logo.component';
 import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component';
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
+/* Commented out test case components
 import { TestCaseListComponent } from './test-cases/test-case-list/test-case-list.component';
 import { CreateOrEditTestCaseComponent } from './test-cases/create-or-edit-test-case/create-or-edit-test-case.component';
+*/
 
 @NgModule({
     declarations: [
@@ -37,9 +39,11 @@ import { CreateOrEditTestCaseComponent } from './test-cases/create-or-edit-test-
         SidebarComponent,
         SidebarLogoComponent,
         SidebarUserPanelComponent,
-        SidebarMenuComponent,
+        SidebarMenuComponent
+        /* Commented out test case components
         TestCaseListComponent,
         CreateOrEditTestCaseComponent
+        */
     ],
     imports: [
         AppRoutingModule,

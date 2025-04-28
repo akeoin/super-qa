@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppRouteGuard } from '@shared/auth/auth-route-guard';
 import { AppComponent } from './app.component';
+/* Commented out test case component
 import { TestCaseListComponent } from './test-cases/test-case-list/test-case-list.component';
+*/
 
 @NgModule({
     imports: [
@@ -44,11 +46,19 @@ import { TestCaseListComponent } from './test-cases/test-case-list/test-case-lis
                         loadChildren: () => import('./users/users.module').then((m) => m.UsersModule),
                         canActivate: [AppRouteGuard]
                     },
+                    /* Commented out test cases route
                     {
                         path: 'test-cases',
                         component: TestCaseListComponent,
                         canActivate: [AppRouteGuard]
                     },
+                    */
+                   {
+                    path: 'product-features',
+                    loadChildren: () => import('./product-features/product-features.module').then(m => m.ProductFeaturesModule),
+                    // data: { permission: 'Pages.ProductFeatures' },
+                    canActivate: [AppRouteGuard]
+                   }
                 ]
             }
         ])

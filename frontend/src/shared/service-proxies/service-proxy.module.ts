@@ -1,10 +1,17 @@
 import { NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AbpHttpInterceptor } from 'abp-ng2-module';
+import { HttpClientModule } from '@angular/common/http';
 
 import * as ApiServiceProxies from './service-proxies';
 
 @NgModule({
+    imports: [
+        HttpClientModule
+    ],
+    exports: [
+        HttpClientModule
+    ],
     providers: [
         ApiServiceProxies.RoleServiceProxy,
         ApiServiceProxies.SessionServiceProxy,
