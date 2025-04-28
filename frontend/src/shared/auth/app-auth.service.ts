@@ -31,7 +31,7 @@ export class AppAuthService {
         abp.utils.deleteCookie(AppConsts.authorization.encryptedAuthTokenName);
         
         if (reload !== false) {
-            location.href = AppConsts.appBaseUrl;
+            location.href = AppConsts.appBaseUrl + '/account/login';
         }
     }
 
@@ -65,7 +65,6 @@ export class AppAuthService {
             );
         } else {
             // Unexpected result!
-
             this._logService.warn('Unexpected authenticateResult!');
             this._router.navigate(['account/login']);
         }
