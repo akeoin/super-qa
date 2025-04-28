@@ -44,11 +44,12 @@ import { TestCaseListComponent } from './test-cases/test-case-list/test-case-lis
                         loadChildren: () => import('./users/users.module').then((m) => m.UsersModule),
                         canActivate: [AppRouteGuard]
                     },
-                    {
-                        path: 'features',
-                        loadChildren: () => import('./features/features.module').then((m) => m.FeaturesModule),
-                        canActivate: [AppRouteGuard]
-                    },
+                    // Feature module is commented out
+                    // {
+                    //   path: 'features',
+                    //   loadChildren: () => import('./features/features.module').then((m) => m.FeaturesModule),
+                    //   canActivate: [AppRouteGuard]
+                    // },
                     {
                         path: 'test-cases',
                         component: TestCaseListComponent,

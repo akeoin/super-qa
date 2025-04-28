@@ -14,10 +14,9 @@ export class AccountFooterComponent extends AppComponentBase {
     super(injector);
 
     this.currentYear = new Date().getFullYear();
-    this.versionText =
-      this.appSession.application.version +
-      ' [' +
-      this.appSession.application.releaseDate.format('YYYYDDMM') +
-      ']';
+    const version = this.appSession?.application?.version || '1.0.0';
+    const releaseDate = this.appSession?.application?.releaseDate || new Date();
+    const formattedDate = `${releaseDate.getFullYear()}${String(releaseDate.getMonth() + 1).padStart(2, '0')}${String(releaseDate.getDate()).padStart(2, '0')}`;
+    this.versionText = version + ' [' + formattedDate + ']';
   }
 }
