@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services;
@@ -11,6 +11,7 @@ using Abp.Linq.Extensions;
 using AkeoIN.SuperQA.ProductFeature.Dto;
 using Castle.Core.Logging;
 using Microsoft.EntityFrameworkCore;
+using Abp.Runtime.Caching;
 
 namespace AkeoIN.SuperQA.ProductFeature
 {
@@ -18,11 +19,83 @@ namespace AkeoIN.SuperQA.ProductFeature
     public class FeatureAppService : AsyncCrudAppService<Feature, FeatureDto, int, PagedFeatureResultRequestDto, CreateFeatureDto, FeatureDto>, IFeatureAppService
     {
         public ILogger Logger { get; set; }
+        private readonly ICacheManager _cacheManager;
+        private const string FeatureCacheKey = "Feature:";
+        private const int DefaultCacheTime = 60; // 60 minutes
 
-        public FeatureAppService(IRepository<Feature, int> repository)
+        public FeatureAppService(IRepository<Feature, int> repository, ICacheManager cacheManager)
             : base(repository)
         {
             Logger = NullLogger.Instance;
+            _cacheManager = cacheManager;
+        }
+
+        public override async Task<FeatureDto> GetAsync(EntityDto<int> input)
+        {
+            try
+            {
+                Logger.Debug($"Getting feature by ID: {input.Id}");
+                var cacheKey = $"{FeatureCacheKey}{input.Id}";
+                Logger.Info("➡ Trying to get feature from Redis cache");
+
+                return await _cacheManager.GetCache<string, FeatureDto>(cacheKey).GetAsync(
+                    cacheKey,
+                    async () =>
+                    {
+                        var feature = await Repository.GetAllIncluding(x => x.ParentFeature)
+                            .FirstOrDefaultAsync(x => x.Id == input.Id);
+
+                        Logger.Info("❗ Cache miss. Getting  from DB 5");
+                        if (feature == null)
+                        {
+                            throw new EntityNotFoundException(typeof(Feature), input.Id);
+                        }
+
+                        return MapToEntityDto(feature);
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get feature by ID: {input.Id}", ex);
+                throw;
+            }
+        }
+
+        public override async Task<PagedResultDto<FeatureDto>> GetAllAsync(PagedFeatureResultRequestDto input)
+        {
+            try
+            {
+                Logger.Debug($"Getting all features with keyword: {input.Keyword}, status: {input.Status}");
+                var cacheKey = $"Features:List:{input.SkipCount}:{input.MaxResultCount}:{input.Keyword}:{input.Status}:{input.ParentFeatureId}";
+                Logger.Info("➡ Trying to get from Redis cache");
+
+                return await _cacheManager.GetCache<string, PagedResultDto<FeatureDto>>(cacheKey).GetAsync(
+                    cacheKey,
+                    async () =>
+                    {
+                        var query = CreateFilteredQuery(input);
+                        var totalCount = await query.CountAsync();
+
+                        Logger.Info("❗ Cache miss. Getting from DB");
+
+                        var items = await query
+                            .Skip(input.SkipCount)
+                            .Take(input.MaxResultCount)
+                            .ToListAsync();
+
+                        return new PagedResultDto<FeatureDto>(
+                            totalCount,
+                            items.Select(MapToEntityDto).ToList()
+                        );
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to get all features", ex);
+                throw;
+            }
         }
 
         public override async Task<FeatureDto> CreateAsync(CreateFeatureDto input)
@@ -30,8 +103,14 @@ namespace AkeoIN.SuperQA.ProductFeature
             try
             {
                 Logger.Info($"Creating feature: {input.Name}");
+                Logger.Info("➡ Trying to get from Redis cache");
+
                 var result = await base.CreateAsync(input);
-                Logger.Info($"Successfully created feature: {input.Name}");
+                
+                
+                // Clear the cache after creating a new feature
+                await _cacheManager.GetCache(FeatureCacheKey).ClearAsync();
+                
                 return result;
             }
             catch (Exception ex)
@@ -48,6 +127,10 @@ namespace AkeoIN.SuperQA.ProductFeature
                 Logger.Info($"Updating feature: {input.Name}");
                 var result = await base.UpdateAsync(input);
                 Logger.Info($"Successfully updated feature: {input.Name}");
+                
+                // Clear the cache after updating a feature
+                await _cacheManager.GetCache(FeatureCacheKey).ClearAsync();
+                
                 return result;
             }
             catch (Exception ex)
@@ -65,6 +148,9 @@ namespace AkeoIN.SuperQA.ProductFeature
                 Logger.Info($"Deleting feature: {feature.Name}");
                 await base.DeleteAsync(input);
                 Logger.Info($"Successfully deleted feature: {feature.Name}");
+                
+                // Clear the cache after deleting a feature
+                await _cacheManager.GetCache(FeatureCacheKey).ClearAsync();
             }
             catch (Exception ex)
             {

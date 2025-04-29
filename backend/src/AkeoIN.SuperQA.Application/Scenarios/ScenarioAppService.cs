@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services;
@@ -10,16 +10,87 @@ using Abp.Linq.Extensions;
 using AkeoIN.SuperQA.Scenarios.Dtos;
 using Castle.Core.Logging;
 using Microsoft.EntityFrameworkCore;
+using Abp.Runtime.Caching;
 
 namespace AkeoIN.SuperQA.Scenarios
 {
     public class ScenarioAppService : AsyncCrudAppService<Scenario, ScenarioDto, int, PagedScenarioResultRequestDto, CreateScenarioDto, ScenarioDto>, IScenarioAppService
     {
         public ILogger Logger { get; set; }
+        private readonly ICacheManager _cacheManager;
+        private const string ScenarioCacheKey = "Scenario:";
+        private const int DefaultCacheTime = 60; // 60 minutes
 
-        public ScenarioAppService(IRepository<Scenario, int> repository) : base(repository)
+        public ScenarioAppService(IRepository<Scenario, int> repository, ICacheManager cacheManager) : base(repository)
         {
             Logger = NullLogger.Instance;
+            _cacheManager = cacheManager;
+        }
+
+        public override async Task<ScenarioDto> GetAsync(EntityDto<int> input)
+        {
+            try
+            {
+                Logger.Debug($"Getting scenario by ID: {input.Id}");
+                var cacheKey = $"{ScenarioCacheKey}{input.Id}";
+                Logger.Info("➡ Trying to get Scanario from Redis cache");
+
+                return await _cacheManager.GetCache<string, ScenarioDto>(cacheKey).GetAsync(
+                    cacheKey,
+                    async () =>
+                    {
+                        var scenario = await Repository.GetAllIncluding(x => x.Feature)
+                            .FirstOrDefaultAsync(x => x.Id == input.Id);
+
+                        Logger.Info("❗ Cache miss. Getting Scenario from DB");
+                        if (scenario == null)
+                        {
+                            throw new EntityNotFoundException(typeof(Scenario), input.Id);
+                        }
+
+                        return MapToEntityDto(scenario);
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get scenario by ID: {input.Id}", ex);
+                throw;
+            }
+        }
+
+        public override async Task<PagedResultDto<ScenarioDto>> GetAllAsync(PagedScenarioResultRequestDto input)
+        {
+            try
+            {
+                Logger.Debug($"Getting all scenarios with keyword: {input.Keyword}, status: {input.Status}");
+                var cacheKey = $"Scenarios:List:{input.SkipCount}:{input.MaxResultCount}:{input.Keyword}:{input.Status}:{input.FeatureId}";
+
+                Logger.Info("➡ Trying to get Scanarios from Redis cache");
+                return await _cacheManager.GetCache<string, PagedResultDto<ScenarioDto>>(cacheKey).GetAsync(
+                    cacheKey,
+                    async () =>
+                    {
+                        var query = CreateFilteredQuery(input);
+                        var totalCount = await query.CountAsync();
+                        var items = await query
+                            .Skip(input.SkipCount)
+                            .Take(input.MaxResultCount)
+                            .ToListAsync();
+
+                        Logger.Info("❗ Cache miss. Getting Scenarios from DB");
+                        return new PagedResultDto<ScenarioDto>(
+                            totalCount,
+                            items.Select(MapToEntityDto).ToList()
+                        );
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to get all scenarios", ex);
+                throw;
+            }
         }
 
         public override async Task<ScenarioDto> CreateAsync(CreateScenarioDto input)
@@ -29,6 +100,10 @@ namespace AkeoIN.SuperQA.Scenarios
                 Logger.Info($"Creating scenario: {input.Name}");
                 var result = await base.CreateAsync(input);
                 Logger.Info($"Successfully created scenario: {input.Name}");
+                
+                // Clear the cache after creating a new scenario
+                await _cacheManager.GetCache(ScenarioCacheKey).ClearAsync();
+                
                 return result;
             }
             catch (Exception ex)
@@ -45,6 +120,10 @@ namespace AkeoIN.SuperQA.Scenarios
                 Logger.Info($"Updating scenario: {input.Name}");
                 var result = await base.UpdateAsync(input);
                 Logger.Info($"Successfully updated scenario: {input.Name}");
+                
+                // Clear the cache after updating a scenario
+                await _cacheManager.GetCache(ScenarioCacheKey).ClearAsync();
+                
                 return result;
             }
             catch (Exception ex)
@@ -62,6 +141,9 @@ namespace AkeoIN.SuperQA.Scenarios
                 Logger.Info($"Deleting scenario: {scenario.Name}");
                 await base.DeleteAsync(input);
                 Logger.Info($"Successfully deleted scenario: {scenario.Name}");
+                
+                // Clear the cache after deleting a scenario
+                await _cacheManager.GetCache(ScenarioCacheKey).ClearAsync();
             }
             catch (Exception ex)
             {

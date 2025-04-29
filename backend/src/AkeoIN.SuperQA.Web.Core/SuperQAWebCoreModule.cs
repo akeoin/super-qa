@@ -13,14 +13,16 @@ using AkeoIN.SuperQA.Authentication.JwtBearer;
 using AkeoIN.SuperQA.Configuration;
 using AkeoIN.SuperQA.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Abp.Runtime.Caching.Redis;
 
 namespace AkeoIN.SuperQA
 {
     [DependsOn(
          typeof(SuperQAApplicationModule),
          typeof(SuperQAEntityFrameworkModule),
-         typeof(AbpAspNetCoreModule)
-        ,typeof(AbpAspNetCoreSignalRModule)
+         typeof(AbpAspNetCoreModule),
+         typeof(AbpAspNetCoreSignalRModule),
+         typeof(AbpRedisCacheModule)
      )]
     public class SuperQAWebCoreModule : AbpModule
     {
@@ -48,6 +50,16 @@ namespace AkeoIN.SuperQA
                  );
 
             ConfigureTokenAuth();
+
+            // Configure Redis
+            var redisConnectionString = _appConfiguration["Redis:Configuration"];
+            if (!string.IsNullOrEmpty(redisConnectionString))
+            {
+                Configuration.Caching.UseRedis(redis =>
+                {
+                    redis.ConnectionString = redisConnectionString;
+                });
+            }
         }
 
         private void ConfigureTokenAuth()

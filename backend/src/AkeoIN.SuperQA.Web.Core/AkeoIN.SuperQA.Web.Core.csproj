@@ -29,5 +29,6 @@
     <PackageReference Include="Abp.AspNetCore" Version="9.4.1" />
     <PackageReference Include="Abp.ZeroCore" Version="9.4.1" />
     <PackageReference Include="Abp.AspNetCore.SignalR" Version="9.4.1" />
+    <PackageReference Include="Abp.RedisCache" Version="9.4.1" />
   </ItemGroup>
 </Project>
